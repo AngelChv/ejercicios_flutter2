@@ -6,7 +6,7 @@ class TaskDAO {
   static void create() {
     SqliteManager.db.then((connection) {
       connection?.execute('''
-        CREATE TABLE tasks (
+        CREATE TABLE IF NOT EXISTS tasks (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           title TEXT NOT NULL,
           description TEXT NOT NULL,
