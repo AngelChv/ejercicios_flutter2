@@ -7,21 +7,6 @@ import 'package:provider/provider.dart';
 import '../model/task_filter.dart';
 
 class TaskListView extends StatelessWidget {
-  static final entries = [
-    DropdownMenuEntry(
-      value: TaskFilter.todo,
-      label: TaskFilter.todo.label,
-    ),
-    DropdownMenuEntry(
-      value: TaskFilter.made,
-      label: TaskFilter.made.label,
-    ),
-    DropdownMenuEntry(
-      value: TaskFilter.all,
-      label: TaskFilter.all.label,
-    ),
-  ];
-
   const TaskListView({super.key});
 
   @override
@@ -36,7 +21,7 @@ class TaskListView extends StatelessWidget {
               onSelected: (taskFilter) {
                 context.read<TaskListProvider>().filter = taskFilter?.getFunction();
               },
-              dropdownMenuEntries: entries,
+              dropdownMenuEntries: TaskFilter.getMenuEntries(),
             ),
           ],
         ),
