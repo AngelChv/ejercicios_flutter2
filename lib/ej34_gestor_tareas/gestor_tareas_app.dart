@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 Future<void> main() async {
   SqliteManager.startDb();
   TaskDAO.create();
-  TaskDAO.insert(Task(title: "Task 1", description: "Task 1"));
+  // TaskDAO.insert(Task(title: "Task 1", description: "Task 1"));
   // final tasks = TaskDAO.findAll();
   // print(tasks);
   runApp(const GestorTareasApp());

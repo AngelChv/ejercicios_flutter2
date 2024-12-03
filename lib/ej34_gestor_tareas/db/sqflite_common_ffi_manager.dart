@@ -6,7 +6,7 @@ class SqliteManager {
 
 
   static Future<Database?> get db async {
-    if (_db == null) return await startDb();
+    if (_db == null || !_db!.isOpen) return await startDb();
     return _db;
   }
 

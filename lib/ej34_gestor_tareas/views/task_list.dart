@@ -27,7 +27,7 @@ class TaskList extends StatefulWidget {
 }
 
 class _TaskListState extends State<TaskList> {
-  final List<TaskListTile> _tasks = [];
+  static final List<TaskListTile> _tasks = [];
 
   @override
   void initState() {
