@@ -23,11 +23,17 @@ class TaskList extends StatefulWidget {
   const TaskList({super.key});
 
   @override
-  State<StatefulWidget> createState() => _TaskListState();
+  State<StatefulWidget> createState() => TaskListState();
 }
 
-class _TaskListState extends State<TaskList> {
+class TaskListState extends State<TaskList> {
   static final List<TaskListTile> _tasks = [];
+
+  void update(TaskListTile taskListTile) {
+    setState(() {
+      _tasks.remove(taskListTile);
+    });
+  }
 
   @override
   void initState() {

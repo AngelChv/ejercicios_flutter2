@@ -1,5 +1,6 @@
 import 'package:ejercicios_flutter2/ej34_gestor_tareas/dao/task_dao.dart';
 import 'package:ejercicios_flutter2/ej34_gestor_tareas/model/task.dart';
+import 'package:ejercicios_flutter2/ej34_gestor_tareas/views/task_list.dart';
 import 'package:flutter/material.dart';
 
 class TaskListTile extends StatefulWidget {
@@ -40,6 +41,8 @@ class _TaskListTileState extends State<TaskListTile> {
           setState(() {
             if (widget.task.id != null) {
               TaskDAO.delete(widget.task.id!);
+              final state = context.findAncestorStateOfType<TaskListState>();
+              state?.update(widget);
             }
             widget.task.id = null;
           });
