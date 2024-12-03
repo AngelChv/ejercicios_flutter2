@@ -56,12 +56,13 @@ class TaskDAO {
     );
   }
 
-  static Future<void> delete(int id) async {
+  static Future<bool> delete(int id) async {
     final Database? db = await SqliteManager.db;
-    await db?.delete(
+    final int count = await db?.delete(
         "tasks",
         where: "id = ?",
         whereArgs: [id]
-    );
+    ) ?? 0;
+    return count > 0;
   }
 }

@@ -16,9 +16,8 @@ class SqliteManager {
     // Usar la fábrica de bases de datos FFI
     final databaseFactory = databaseFactoryFfi;
     // Abrir o crear una base de datos
-    final dbPath = join(await databaseFactory.getDatabasesPath(), 'my_database.db');
+    final dbPath = join(await databaseFactory.getDatabasesPath(), 'tasks.db');
     _db = await databaseFactory.openDatabase(dbPath);
-    print("start db: ${_db?.isOpen ?? "nulo"}");
     return _db;
   }
 }

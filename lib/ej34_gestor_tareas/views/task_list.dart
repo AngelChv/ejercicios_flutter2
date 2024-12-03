@@ -1,59 +1,68 @@
-import 'package:ejercicios_flutter2/ej34_gestor_tareas/dao/task_dao.dart';
+import 'package:ejercicios_flutter2/ej34_gestor_tareas/model/task_list_provider.dart';
+import 'package:ejercicios_flutter2/ej34_gestor_tareas/widgets/new_task_form.dart';
 import 'package:ejercicios_flutter2/ej34_gestor_tareas/widgets/task_list_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../model/task.dart';
+import '../model/task_filter.dart';
 
 class TaskListView extends StatelessWidget {
+  static final entries = [
+    DropdownMenuEntry(
+      value: TaskFilter.todo,
+      label: TaskFilter.todo.label,
+    ),
+    DropdownMenuEntry(
+      value: TaskFilter.made,
+      label: TaskFilter.made.label,
+    ),
+    DropdownMenuEntry(
+      value: TaskFilter.all,
+      label: TaskFilter.all.label,
+    ),
+  ];
+
   const TaskListView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Gestor de tareas"),
+        title: Row(
+          children: [
+            const Expanded(child: Center(child: Text("Gestor de tareas"))),
+            DropdownMenu(
+              initialSelection: TaskFilter.all,
+              onSelected: (taskFilter) {
+                context.read<TaskListProvider>().filter = taskFilter?.getFunction();
+              },
+              dropdownMenuEntries: entries,
+            ),
+          ],
+        ),
         centerTitle: true,
       ),
-      body: const TaskList(),
+      body: const Column(
+        children: [
+          NewTaskForm(),
+          Expanded(child: TaskList()),
+        ],
+      ),
     );
   }
 }
 
-class TaskList extends StatefulWidget {
+class TaskList extends StatelessWidget {
   const TaskList({super.key});
 
   @override
-  State<StatefulWidget> createState() => TaskListState();
-}
-
-class TaskListState extends State<TaskList> {
-  static final List<TaskListTile> _tasks = [];
-
-  void update(TaskListTile taskListTile) {
-    setState(() {
-      _tasks.remove(taskListTile);
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    TaskDAO.findAll().then((result) {
-      setState(() {
-        for (Task task in result) {
-          _tasks.add(TaskListTile(task: task));
-        }
-      });
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    List<TaskListTile> tasks = context.watch<TaskListProvider>().tasks;
     return ListView.separated(
       padding: const EdgeInsets.all(32),
-      itemBuilder: (context, index) => _tasks[index],
+      itemBuilder: (context, index) => tasks[index],
       separatorBuilder: (context, index) => const Divider(),
-      itemCount: _tasks.length,
+      itemCount: tasks.length,
     );
   }
 }

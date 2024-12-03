@@ -1,7 +1,8 @@
 import 'package:ejercicios_flutter2/ej34_gestor_tareas/dao/task_dao.dart';
 import 'package:ejercicios_flutter2/ej34_gestor_tareas/model/task.dart';
-import 'package:ejercicios_flutter2/ej34_gestor_tareas/views/task_list.dart';
+import 'package:ejercicios_flutter2/ej34_gestor_tareas/model/task_list_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TaskListTile extends StatefulWidget {
   final Task task;
@@ -18,7 +19,6 @@ class _TaskListTileState extends State<TaskListTile> {
   @override
   Widget build(BuildContext context) {
     title = Text(widget.task.title);
-    print("isComplete: ${widget.task.isComplete}");
     return ListTile(
       leading: Checkbox(
         value: widget.task.isComplete,
@@ -38,14 +38,7 @@ class _TaskListTileState extends State<TaskListTile> {
       subtitle: Text(widget.task.description),
       trailing: IconButton(
         onPressed: () {
-          setState(() {
-            if (widget.task.id != null) {
-              TaskDAO.delete(widget.task.id!);
-              final state = context.findAncestorStateOfType<TaskListState>();
-              state?.update(widget);
-            }
-            widget.task.id = null;
-          });
+          context.read<TaskListProvider>().removeTask(widget);
         },
         icon: const Icon(Icons.delete),
       ),
