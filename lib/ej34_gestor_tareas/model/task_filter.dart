@@ -11,38 +11,36 @@ enum TaskFilter {
   const TaskFilter(this.label);
 
   static List<DropdownMenuEntry> getMenuEntries() {
-    return [
-      DropdownMenuEntry(
-        value: TaskFilter.todo,
-        label: TaskFilter.todo.label,
-      ),
-      DropdownMenuEntry(
-        value: TaskFilter.made,
-        label: TaskFilter.made.label,
-      ),
-      DropdownMenuEntry(
-        value: TaskFilter.all,
-        label: TaskFilter.all.label,
-      ),
-    ];
+    List<DropdownMenuEntry> entries = [];
+
+    for (var i in TaskFilter.values) {
+      entries.add(DropdownMenuEntry(
+        value: i,
+        label: i.label,
+      ));
+    }
+
+    return entries;
   }
 
   List<TaskListTile> Function(List<TaskListTile>) getFunction() {
     return switch (this) {
-      TaskFilter.all => (original) {return original.toList();},
+      TaskFilter.all => (original) {
+          return original.toList();
+        },
       TaskFilter.made => (original) {
-        List<TaskListTile> filtered = [];
-        for (TaskListTile t in original) {
-          if (t.task.isComplete) filtered.add(t);
-        }
-        return filtered;
+          List<TaskListTile> filtered = [];
+          for (TaskListTile t in original) {
+            if (t.task.isComplete) filtered.add(t);
+          }
+          return filtered;
         },
       TaskFilter.todo => (original) {
-        List<TaskListTile> filtered = [];
-        for (TaskListTile t in original) {
-          if (!t.task.isComplete) filtered.add(t);
-        }
-        return filtered;
+          List<TaskListTile> filtered = [];
+          for (TaskListTile t in original) {
+            if (!t.task.isComplete) filtered.add(t);
+          }
+          return filtered;
         },
     };
   }
