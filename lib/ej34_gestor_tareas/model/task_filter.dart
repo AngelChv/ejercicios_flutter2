@@ -29,7 +29,7 @@ enum TaskFilter {
 
   List<TaskListTile> Function(List<TaskListTile>) getFunction() {
     return switch (this) {
-      TaskFilter.todo => (original) {return original.toList();},
+      TaskFilter.all => (original) {return original.toList();},
       TaskFilter.made => (original) {
         List<TaskListTile> filtered = [];
         for (TaskListTile t in original) {
@@ -37,7 +37,7 @@ enum TaskFilter {
         }
         return filtered;
         },
-      TaskFilter.all => (original) {
+      TaskFilter.todo => (original) {
         List<TaskListTile> filtered = [];
         for (TaskListTile t in original) {
           if (!t.task.isComplete) filtered.add(t);
